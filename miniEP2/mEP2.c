@@ -12,14 +12,13 @@ void procurarSoma(ll *numeroDasCasas,ll somaProcurada,unsigned int quantidadeCas
 
             if(somaAtual == somaProcurada){
 
-                printf("SIM\n%lld %lld\n",numeroDasCasas[i],numeroDasCasas[j]);
+                printf("SIM\n%d %d\n",i+1,j+1);
 
                 return;
             }
         }
     }
     printf("NAO\n");
-    printf("\n");
     
 }
 
