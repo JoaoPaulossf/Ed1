@@ -1,52 +1,52 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 typedef long long ll;
 
-void procurarSoma(ll *numeroDasCasas,ll somaProcurada,int quantidadeCasas,ll *numero1,ll *numero2){
-    ll soma = 0;
-    int i = 0,j = 0;
-    while(somaProcurada != soma){
-        if (i == quantidadeCasas){
-            printf("NAO\n");
-            printf("\n");
-            return;
-        }
-        if(j == quantidadeCasas){
-            j = 0;
-            i++;
-        }
+void procurarSoma(ll *numeroDasCasas,ll somaProcurada,unsigned int quantidadeCasas){
+    ll somaAtual = 0;
 
-        soma = numeroDasCasas[i] + numeroDasCasas[j];
+    for(int i = 0; i < quantidadeCasas; i++){
+        for(int j = i + 1; j < quantidadeCasas; j++){
+            somaAtual = numeroDasCasas[i] + numeroDasCasas[j];
+
+            if(somaAtual == somaProcurada){
+
+                printf("SIM\n%lld %lld\n",numeroDasCasas[i],numeroDasCasas[j]);
+
+                return;
+            }
+        }
     }
-
-    *numero1 = numeroDasCasas[i];
-    *numero2 = numeroDasCasas[j];
-
-    printf("SIM\n%lld %lld\n",*numero1,*numero2);
+    printf("NAO\n");
+    printf("\n");
+    
 }
 
 int main(){
-    int QuantidadeCasas = 0;
-    scanf("%d",&QuantidadeCasas);
+    // para atender a restrição de (2 <= N <= 10 ^ 5)
+    unsigned int quantidadeCasas = 0;
+    scanf("%d",& quantidadeCasas);
 
     ll *numeroDasCasas = NULL;
-    numeroDasCasas = (ll*) calloc(QuantidadeCasas, sizeof(ll));
+    numeroDasCasas = (ll*) calloc(quantidadeCasas, sizeof(ll));
     
     if (numeroDasCasas == NULL){
         printf("Erro ao alocar memória!");
         return(1);
     }
 
-    for(int i = 0; i < QuantidadeCasas;i++){
+    for(int i = 0; i < quantidadeCasas;i++){
         scanf("%lld", &numeroDasCasas[i]);
     }
 
-    ll somaProcurada = 0;
+    ll somaProcurada;
     scanf("%lld",&somaProcurada);
 
-    ll *numero1,*numero2;
+    procurarSoma(numeroDasCasas, somaProcurada, quantidadeCasas);
 
-    procurarSoma(numeroDasCasas,somaProcurada,QuantidadeCasas,numero1,numero2);
+    free(numeroDasCasas);
 
+    return 0;
 }
