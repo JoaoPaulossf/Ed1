@@ -3,6 +3,8 @@
 
 typedef long long ll;
 
+//Primeira tentativa, usando loops aninhados
+
 // void procurarSoma(ll *numeroDasCasas,ll somaProcurada,unsigned int quantidadeCasas){
 //     ll somaAtual = 0;
 //     unsigned int ultimoIndice = quantidadeCasas - 1;
@@ -22,6 +24,7 @@ typedef long long ll;
 
 // }
 
+// Segunda tentativa, usando a ideia de dois ponteiros, sabendo que o vetor esta ordenado
 void procurarSoma(ll *vetor,ll somaProcurada, unsigned int tamanho){
     int esquerda = 0;
     int direita = tamanho - 1;
@@ -62,8 +65,7 @@ int main(){
     scanf("%lld",&somaProcurada);
 
     procurarSoma(numeroDasCasas,somaProcurada,quantidadeCasas);
-    // procurarSoma(numeroDasCasas, somaProcurada, quantidadeCasas);
-
+    
     free(numeroDasCasas);
 
     return 0;
