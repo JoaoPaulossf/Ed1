@@ -47,6 +47,10 @@ void caminhaMapa(int linha,int coluna,int passosAtuais){
         return;
     }
 
+    if (labirinto[linha][coluna] == '#' || labirinto[linha][coluna] == 'v'){
+        return;
+    }
+
     //verifica se chegou no final usando as coordenadas da variavel tipo ponto
     if(linha == final.linha && coluna == final.coluna){
         if(menorCaminho != -1){
@@ -59,13 +63,11 @@ void caminhaMapa(int linha,int coluna,int passosAtuais){
         return;
     }
 
-    //vejo se é um muro, se for, retorno pois e uma posicção invalida
-    if (labirinto[linha][coluna] != '.' && labirinto[linha][coluna] != 'S'){
-        passosAtuais--;
+    if (menorCaminho != -1 && passosAtuais >= menorCaminho){
         return;
     }
 
-    //marco a casa visitada
+    char charOriginal = labirinto[linha][coluna]; // Guarda 'S' ou '.'
     labirinto[linha][coluna] = 'v';
 
     //tentativas de caminhar para a proxima casa
@@ -74,9 +76,7 @@ void caminhaMapa(int linha,int coluna,int passosAtuais){
     caminhaMapa(linha - 1, coluna,passosAtuais + 1);
     caminhaMapa(linha + 1, coluna, passosAtuais + 1);
 
-    //caso não seja uma possibilidade, desmarco a casa
-    labirinto[linha][coluna] = '.';
-
+    labirinto[linha][coluna] = charOriginal; 
 }
 
 int main(){
