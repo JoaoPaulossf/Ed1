@@ -62,14 +62,7 @@ void pushPilha(Pilha *pilha, Imagem *img) {
     No *novo = malloc(sizeof(No));
     if (novo == NULL)
         return;
-
-    Imagem *copia = copiaImagem(img);
-    if (copia == NULL) {
-        free(novo);
-        return;
-    }
-
-    novo->imagem = copia;
+    novo->imagem = img;
     novo->proximo = pilha->inicio;
     pilha->inicio =  novo;
     pilha->n++; 

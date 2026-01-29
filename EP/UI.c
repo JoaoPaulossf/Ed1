@@ -278,6 +278,9 @@ void desfazerCallback(GtkWidget *widget, gpointer data) {
 #if ETAPA >= 3
     AVISO("UI.c: Não inclui uma cópia da imagem atual na pilha de desfazer na função 'desfazerCallback'");
     if (pilhaDesfazer && !pilhaVazia(pilhaDesfazer)) {
+        liberaImagem(imagemAtual);
+        imagemAtual = copiaImagem(topPilha(pilhaDesfazer));
+        popPilha(pilhaDesfazer);
         // Com você :)
         
         atualizaDisplay();
@@ -291,6 +294,8 @@ void filtroEscalaCinzaCallback(GtkWidget *widget, gpointer data) {
         return;
 #if ETAPA >= 3
     AVISO("UI.c: Não inclui uma cópia da imagem atual na pilha de desfazer na função 'filtroEscalaCinzaCallback'");
+    copiaDaImagem = copiaImagem(imagemAtual);
+    pushPilha(pilhaDesfazer,copiaDaImagem);
     // Com você :)
 
 #endif
@@ -303,6 +308,8 @@ void deteccaoBordasLaplaceCallback(GtkWidget *widget, gpointer data){
         return;
 #if ETAPA >= 3
     AVISO("UI.c: Não inclui uma cópia da imagem atual na pilha de desfazer na função 'deteccaoBordasLaplaceCallback'");
+    copiaDaImagem = copiaImagem(imagemAtual);
+    pushPilha(pilhaDesfazer,copiaDaImagem);
     // Com você :)
 
 #endif
@@ -315,6 +322,8 @@ void filtroSobelCallback(GtkWidget *widget, gpointer data){
         return;
 #if ETAPA >= 3
     AVISO("UI.c: Não inclui uma cópia da imagem atual na pilha de desfazer na função 'filtroSobelCallback'");
+    copiaDaImagem = copiaImagem(imagemAtual);
+    pushPilha(pilhaDesfazer,copiaDaImagem);
     // Com você :)
 
 #endif
@@ -327,6 +336,8 @@ void meuFiltroCallback(GtkWidget *widget, gpointer data){
         return;
 #if ETAPA >= 3
     AVISO("UI.c: Não inclui uma cópia da imagem atual na pilha de desfazer na função 'meuFiltroCallback'");
+    copiaDaImagem = copiaImagem(imagemAtual);
+    pushPilha(pilhaDesfazer,copiaDaImagem);
     // Com você :)
 
 #endif
@@ -339,6 +350,8 @@ void imagemOriginalCallback(GtkWidget *widget, gpointer data) {
         return;
 #if ETAPA >= 3
     AVISO("UI.c: Não inclui uma cópia da imagem atual na pilha de desfazer na função 'imagemOriginalCallback'");
+    copiaDaImagem = copiaImagem(imagemAtual);
+    pushPilha(pilhaDesfazer,copiaDaImagem);
     // Com você :)
 
 #endif
