@@ -56,7 +56,19 @@ Arvore *criaArvore(Imagem *img) {
     }
     AVISO(AVL.c : Ainda não implementei a função 'criaArvore'); // Retire esssa mensagem ao implementar a fução
     Arvore *arvore = mallocSafe(sizeof(Arvore));
-    
+    arvore->raiz = NULL;
+    arvore->numeroNos = 0;
+
+    int altura = obtemAltura(img);
+    int largura = obtemLargura(img);
+
+    for(int i = 0; i < altura; i++){
+        for(int j = 0; j < largura; j++){
+            Cor c = obtemCorPixel(img, i, j);
+            Posicao p = { i, j};
+            insereArvore(arvore,c,p);
+        }
+    }
     return arvore;
 }
 
@@ -69,6 +81,15 @@ Arvore *criaArvore(Imagem *img) {
  */
 void liberaNosArvore(NoBST *raiz){
     AVISO(AVL.c : Ainda não implementei a função 'liberaNosArvore'); // Retire esssa mensagem ao implementar a fução
+    if(raiz == NULL)
+        return;
+    
+    liberaNosArvore(raiz->esq);
+    liberaNosArvore(raiz->dir);
+
+    liberaLista(raiz->ocorrencias);
+
+    free(raiz);
     
 }
 
@@ -164,17 +185,39 @@ NoBST *insereNo(NoBST *raiz, Cor cor, Posicao p, bool *novoNoInserido) {
         return criaNo(cor, p);
     }
 
-    // Lembre-se que se a cor já existir na árvore, você deve apenas
-    // adicionar a nova posição à lista de ocorrências do nó existente.
-    // Use a função comparaCores (Cor.c) para comparar as cores.
-    // Além disso, após a inserção, você deve atualizar as alturas e
-    // verificar se é necessário fazer rotações para manter a árvore balanceada.
+    int compara = comparaCores(cor, raiz ->pixel);
 
-    AVISO(AVL.c : Ainda não implementei a função 'insereNo'); // Retire esssa mensagem ao implementar a fução
+    if(compara == 0){
+        insereLista(raiz->ocorrencias,p);
+        *novoNoInserido = false;
+        return raiz;
+    }
+    else if(compara < 0){
+        raiz->esq = insereNo(raiz->esq,cor,p, novoNoInserido);
+    }
+    else{
+        raiz->dir = insereNo(raiz->dir,cor,p, novoNoInserido);
+    }
 
-    // Com você :)
+    raiz->altura = 1 + max(altura(raiz->esq), altura(raiz->dir));
 
+    int fatorBalanc = fatorBalanceamento(raiz);
+
+    if(fatorBalanc > 1 && comparaCores(cor,raiz->esq->pixel) < 0)
+        return rotacaoDireita(raiz);
     
+    if(fatorBalanc < -1 && comparaCores(cor,raiz->dir->pixel) > 0)
+        return rotacaoEsquerda(raiz);
+
+    if(fatorBalanc > 1 && comparaCores(cor,raiz->esq->pixel) > 0) {
+        raiz->esq = rotacaoEsquerda(raiz->esq);
+        return rotacaoDireita(raiz);
+    }
+    if(fatorBalanc < -1 && comparaCores(cor,raiz->dir->pixel) < 0){
+        raiz->dir = rotacaoDireita(raiz->dir);
+        return rotacaoEsquerda(raiz);
+    }
+        
     return raiz;
 }
 
